@@ -1,0 +1,25 @@
+ Dfd (c)
+1
+1
+1
+0
+0
+4
+1
+34
+'Ingresar el precio del producto:'
+5
+1
+6
+precio
+6
+1
+13
+total_con_iva
+13
+precio * 1.16
+4
+1
+37
+'El total con IVA es:', total_con_iva
+1

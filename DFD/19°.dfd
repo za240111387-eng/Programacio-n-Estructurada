@@ -1,0 +1,25 @@
+ Dfd (c)
+1
+1
+1
+0
+0
+4
+1
+33
+'Ingresar valor de resistencias:'
+5
+1
+10
+R1, R2, R3
+6
+1
+2
+RT
+12
+R1 + R2 + R3
+4
+1
+30
+'La resistencia total es:', RT
+1

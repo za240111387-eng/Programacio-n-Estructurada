@@ -1,0 +1,33 @@
+ Dfd (c)
+1
+1
+1
+0
+0
+4
+1
+22
+'Ingresar kilometros:'
+5
+1
+10
+kilometros
+6
+2
+6
+metros
+16
+kilometros * 100
+11
+centimetros
+17
+kilometros * 1000
+4
+1
+39
+'Los kilometros en metros son:', metros
+4
+1
+40
+'Kilometros a centimetros.', centimetros
+1

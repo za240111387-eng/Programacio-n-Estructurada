@@ -1,0 +1,33 @@
+ Dfd (c)
+1
+1
+1
+0
+0
+4
+1
+33
+'Ingresar cantidad de articulos:'
+5
+1
+8
+cantidad
+4
+1
+27
+'Ingresar precio unitario:'
+5
+1
+6
+precio
+6
+1
+5
+total
+17
+cantidad * precio
+4
+1
+21
+'El total es:', total
+1

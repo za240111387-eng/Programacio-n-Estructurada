@@ -1,0 +1,25 @@
+ Dfd (c)
+1
+1
+1
+0
+0
+4
+1
+25
+'Ingresar voltaje 1 y 2:'
+5
+1
+6
+V1, V2
+6
+1
+6
+Vmedio
+11
+V1 + V2 / 2
+4
+1
+30
+'El voltaje medio es:', Vmedio
+1

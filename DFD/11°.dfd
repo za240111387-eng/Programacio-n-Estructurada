@@ -1,0 +1,25 @@
+ Dfd (c)
+1
+1
+1
+0
+0
+4
+1
+43
+'Ingresa la temperatura en grados celcius:'
+5
+1
+7
+celcius
+6
+1
+10
+fahrenheit
+20
+(celcius * 9/5) + 32
+4
+1
+46
+'La temperatura en Fahrenheit es:', fahrenheit
+1

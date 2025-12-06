@@ -1,0 +1,27 @@
+ Dfd (c)
+1
+1
+1
+0
+0
+4
+1
+30
+'Ingresa el numero a dividir:'
+5
+1
+9
+dividendo
+4
+1
+32
+'Ingresar el numero que divide:'
+5
+1
+7
+divisor
+4
+1
+54
+'El resultado de la division es:', dividendo / divisor
+1

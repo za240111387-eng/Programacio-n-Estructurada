@@ -1,0 +1,33 @@
+ Dfd (c)
+1
+1
+1
+0
+0
+4
+1
+32
+'Ingresa la base del triangulo:'
+5
+1
+4
+base
+4
+1
+31
+'Ingresa altura del triangulo:'
+5
+1
+6
+altura
+6
+1
+14
+area_triangulo
+19
+(base * altura) / 2
+4
+1
+43
+'El area del triangulo es:', area_triangulo
+1

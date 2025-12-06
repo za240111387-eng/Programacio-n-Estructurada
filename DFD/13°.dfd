@@ -1,0 +1,25 @@
+ Dfd (c)
+1
+1
+1
+0
+0
+4
+1
+19
+'Ingresar ninutos:'
+5
+1
+6
+minuto
+6
+1
+8
+segundos
+12
+minuto * 60 
+4
+1
+29
+'Los segundos son:', segundos
+1
