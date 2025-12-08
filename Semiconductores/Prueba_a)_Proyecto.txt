@@ -1,0 +1,102 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# --- 1. CONSTANTES FÍSICAS Y PARÁMETROS FIJOS ---
+q = 1.602e-19           # Carga elemental (C)
+k = 1.38e-23            # Constante de Boltzmann (J/K)
+T = 300                 # Temperatura (K)
+epsilon_0 = 8.854e-14   # Permitividad del vacío (F/cm)
+epsilon_si = 11.7 * epsilon_0 # Permitividad del Silicio
+epsilon_ox = 3.9 * epsilon_0  # Permitividad del SiO2
+ni = 1.5e10             # Concentración intrínseca del Si (cm^-3)
+tox = 10e-7             # Espesor del óxido en cm (ej. 10 nm)
+Cox = epsilon_ox / tox  # Capacitancia del óxido (F/cm^2)
+
+# --- 2. FUNCIÓN DEL MODELO ANALÍTICO ---
+def calcular_cv(Vg_array, Na, Vfb=0):
+    """
+    Calcula la curva C-V de alta frecuencia para un capacitor MOS (sustrato tipo-p).
+    """
+    # Potencial de Fermi (phi_F)
+    phi_F = (k * T / q) * np.log(Na / ni)
+    
+    # Ancho máximo de la zona de agotamiento (W_max)
+    W_max = np.sqrt((4 * epsilon_si * phi_F) / (q * Na))
+    
+    # Voltaje de umbral (Vth)
+    # Vth = Vfb + 2*phi_F + Q_dep/Cox -> Q_dep = sqrt(2*eps*q*Na*2phi_F)
+    Vth = Vfb + 2*phi_F + (np.sqrt(2 * epsilon_si * q * Na * (2 * phi_F)) / Cox)
+    
+    C_total = []
+    
+    for Vg in Vg_array:
+        # Región 1: Acumulación (Vg < Vfb)
+        if Vg < Vfb:
+            # Aproximación simple: C = Cox
+            C = Cox
+            
+        # Región 2: Agotamiento (Vfb <= Vg <= Vth)
+        elif Vfb <= Vg < Vth:
+            # Fórmula analítica para agotamiento
+            # C = Cox / sqrt(1 + 2*Cox^2 * (Vg - Vfb) / (q*Na*epsilon_si))
+            denom = np.sqrt(1 + (2 * Cox**2 * (Vg - Vfb)) / (q * Na * epsilon_si))
+            C = Cox / denom
+            
+        # Región 3: Inversión (Vg >= Vth) - Alta Frecuencia
+        else:
+            # En alta frecuencia, la capacitancia se mantiene en el mínimo
+            C_min = epsilon_si / (W_max + (epsilon_si / Cox))
+            C = C_min
+            
+        C_total.append(C)
+        
+    return np.array(C_total)
+
+# Configuración del eje de voltaje
+Vg = np.linspace(-2, 3, 500) # De -2V a 3V
+
+# --- GRAFICAR C(V) CON DISTINTOS DOPADOS ---
+dopados = [1e15, 1e16, 5e16, 1e17] # Distintos valores de Na
+
+plt.figure(figsize=(10, 6))
+for Na in dopados:
+    C_curve = calcular_cv(Vg, Na)
+    # Graficamos normalizado (C / Cox) para ver mejor la forma
+    plt.plot(Vg, C_curve / Cox, label=f'Na = {Na:.0e} $cm^{{-3}}$', linewidth=2)
+
+plt.title('Curva C-V de Alta Frecuencia (Sustrato Tipo-P)')
+plt.xlabel('Voltaje de Compuerta $V_G$ (V)')
+plt.ylabel('Capacitancia Normalizada ($C/C_{ox}$)')
+plt.grid(True, which='both', linestyle='--', alpha=0.6)
+plt.legend()
+plt.show()
+
+# --- ANÁLISIS ESTADÍSTICO (Variabilidad en Na) ---
+# Simulamos que el proceso de fabricación tiene error
+Na_nominal = 1e16
+sigma = 0.20 * Na_nominal  # 20% de desviación estándar
+num_simulaciones = 50
+
+plt.figure(figsize=(10, 6))
+
+# Generar 50 curvas aleatorias
+np.random.seed(42) 
+for i in range(num_simulaciones):
+    # Generar un Na aleatorio (distribución normal)
+    Na_random = np.random.normal(Na_nominal, sigma)
+    # Evitar valores negativos o irreales de dopado
+    if Na_random < 1e14: Na_random = 1e14
+    
+    C_curve = calcular_cv(Vg, Na_random)
+    plt.plot(Vg, C_curve / Cox, color='gray', alpha=0.3) # Curvas tenues
+
+# Graficar la curva nominal (promedio) encima
+C_nominal = calcular_cv(Vg, Na_nominal)
+plt.plot(Vg, C_nominal / Cox, color='red', linewidth=2, label=f'Nominal ($10^{{16}}$)')
+
+plt.title(f'Análisis de Monte Carlo: Variabilidad de $N_A$ ({num_simulaciones} muestras)')
+plt.xlabel('Voltaje de Compuerta $V_G$ (V)')
+plt.ylabel('Capacitancia Normalizada ($C/C_{ox}$)')
+plt.grid(True)
+plt.legend()
+plt.show()
